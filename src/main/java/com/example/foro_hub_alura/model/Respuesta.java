@@ -1,5 +1,6 @@
 package com.example.foro_hub_alura.model;
 
+import com.example.foro_hub_alura.auth.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 

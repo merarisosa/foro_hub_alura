@@ -1,5 +1,7 @@
 package com.example.foro_hub_alura.model;
 
+import com.example.foro_hub_alura.auth.model.Usuario;
+import com.example.foro_hub_alura.dto.TopicoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,4 +36,22 @@ public class Topico {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario autor;
+
+    //Asigna los valores del DTO a una clase Topico
+    public Topico(TopicoDTO topicoDTO){
+        this.titulo = topicoDTO.titulo();
+        this.mensaje = topicoDTO.mensaje();
+
+        if(topicoDTO.autor() != null){
+            this.autor = new Usuario(topicoDTO.autor());
+        }
+
+        if (topicoDTO.curso() != null) {
+            this.curso = new Curso(
+                    topicoDTO.curso().getId(),
+                    topicoDTO.curso().getNombre(),
+                    topicoDTO.curso().getCategoria()
+            );
+        }
+    }
 }

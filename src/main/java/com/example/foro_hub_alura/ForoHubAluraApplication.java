@@ -1,4 +1,4 @@
-package com.example.foro_hub_alura.service;
+package com.example.foro_hub_alura;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
