@@ -17,7 +17,6 @@ public class UsuarioService {
 
     public List<Usuario> allUsers() {
         List<Usuario> users = new ArrayList<>();
-
         userRepository.findAll().forEach(users::add);
 
         return users;

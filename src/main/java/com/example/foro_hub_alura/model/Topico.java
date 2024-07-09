@@ -26,14 +26,14 @@ public class Topico {
     private String titulo;
     private Boolean status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
 
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas;
 
-    @ManyToOne
+    @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario autor;
 
@@ -53,5 +53,8 @@ public class Topico {
                     topicoDTO.curso().getCategoria()
             );
         }
+
+        this.fechaCreacion = LocalDateTime.now();
+        this.status = true;
     }
 }

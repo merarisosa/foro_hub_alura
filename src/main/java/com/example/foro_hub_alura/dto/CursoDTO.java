@@ -9,7 +9,7 @@ public record CursoDTO(
 ) {
 
     CursoDTO(Curso curso) {
-        this(  curso.getNombre(),
+        this( curso.getNombre(),
                 curso.getCategoria());
     }
 

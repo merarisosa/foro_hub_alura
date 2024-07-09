@@ -2,6 +2,7 @@ package com.example.foro_hub_alura.auth.model;
 
 import com.example.foro_hub_alura.auth.dto.RegisterUserDTO;
 import com.example.foro_hub_alura.auth.dto.UsuarioDTO;
+import com.example.foro_hub_alura.dto.UsuarioAutorDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -35,6 +36,10 @@ public class Usuario implements UserDetails {
 
     @Column(nullable = false)
     private String contrasena;
+
+    public Usuario(UsuarioAutorDTO usuarioDTO){
+        this.nombre = usuarioDTO.nombre();
+    }
 
     public Usuario(UsuarioDTO usuarioDTO){
         this.nombre = usuarioDTO.nombre();
