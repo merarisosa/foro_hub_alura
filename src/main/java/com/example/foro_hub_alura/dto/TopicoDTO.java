@@ -6,6 +6,7 @@ import com.example.foro_hub_alura.model.Topico;
 import java.time.LocalDateTime;
 
 public record TopicoDTO(
+        //Long id,
         String titulo,
         String mensaje,
         UsuarioAutorDTO autor,
@@ -16,6 +17,7 @@ public record TopicoDTO(
 
     public TopicoDTO(Topico topico) {
         this(
+               //topico.getId(),
                 topico.getTitulo(),
                 topico.getMensaje(),
                 new UsuarioAutorDTO(topico.getAutor()),

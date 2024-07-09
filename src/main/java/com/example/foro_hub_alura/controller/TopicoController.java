@@ -59,4 +59,23 @@ public class TopicoController {
     public TopicoDTO obtenerTopicoById(@PathVariable @Valid Long id){
         return topicoService.obtenerTopicoById(id);
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TopicoDTO> editarTopicoById(@PathVariable @Valid Long id, @RequestBody TopicoDTO topicoDTO){
+        //topicoService.editarTopicoById(id, topicoDTO);
+
+        return ResponseEntity.ok(topicoService.editarTopicoById(id, topicoDTO));
+        /*
+         return ResponseEntity.ok(new TopicoDTO(topicoActualizado));
+        } else {
+            return ResponseEntity.notFound().build();
+            * */
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deleteId(@PathVariable @Valid Long id) {
+        topicoService.deleteId(id);
+    }
 }

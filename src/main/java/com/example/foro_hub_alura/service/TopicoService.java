@@ -3,17 +3,22 @@ package com.example.foro_hub_alura.service;
 import com.example.foro_hub_alura.auth.model.Usuario;
 import com.example.foro_hub_alura.auth.repository.UsuarioRepository;
 import com.example.foro_hub_alura.dto.TopicoDTO;
+import com.example.foro_hub_alura.dto.UsuarioAutorDTO;
 import com.example.foro_hub_alura.model.Curso;
 import com.example.foro_hub_alura.model.Topico;
 import com.example.foro_hub_alura.repository.CursoRepository;
 import com.example.foro_hub_alura.repository.TopicoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,13 +79,47 @@ public class TopicoService {
                 .toList();
     }
 
+    //Metodo para obtener los topicos paginables
     public Page<TopicoDTO> obtenerTopicosInPages(Pageable pageable) {
         Page<Topico> topicos = topicoRepository.findAll(pageable);
         return topicos.map(TopicoDTO::new);
     }
 
+    //Metodo para obtener los topicos por id
     public TopicoDTO obtenerTopicoById(Long id){
         Optional<Topico> topicoId = topicoRepository.findById(id);
         return new TopicoDTO(topicoId.get());
+    }
+
+    //Metodo para editar un topico por id
+    public TopicoDTO editarTopicoById(Long id, TopicoDTO topicoDTO) {
+        Topico topico = topicoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Topico no existente"));
+
+        if (topicoDTO.titulo() != null) {
+            topico.setTitulo(topicoDTO.titulo());
+        }
+        if (topicoDTO.mensaje() != null) {
+            topico.setMensaje(topicoDTO.mensaje());
+        }
+        if (topicoDTO.curso() != null) {
+            topico.setCurso(topicoDTO.curso());
+        }
+        if(topicoDTO.autor() != null){
+            if (topico.getAutor().getId() == topicoDTO.autor().id()) {
+                topico.setAutor(new Usuario(topicoDTO.autor()));
+            }
+        }
+        Topico topicoActualizado = topicoRepository.save(topico);
+        return new TopicoDTO(topicoActualizado);
+    }
+
+    public void deleteId(Long id){
+        if(topicoRepository.findById(id).isPresent()){
+            topicoRepository.deleteById(id);
+            System.out.println("Topico eliminado");
+        } else{
+            System.out.println("El topico no existe");
+        }
     }
 }
